@@ -10,8 +10,6 @@ It includes a limited set of features to make the development experience easier:
   - Define routes
   - Input validation per route
 
-------------------
-
 ## Concepts
 
 ### Endpoint
@@ -121,8 +119,6 @@ adminRouter.addEndpoint(HttpMethods.POST, '/', this.post.bind(this), [
 ```
 
 Adding a second parameter is possible simply by adding extending the existing array in the `addEndpoint` function and adding a new parameter in the given endpoint function.
-
----------------
 
 ## Todo
 
