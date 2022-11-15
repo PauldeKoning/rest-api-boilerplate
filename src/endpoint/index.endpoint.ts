@@ -15,5 +15,4 @@ export default class IndexEndpoint {
             data: "index"
         }
     }
-
 }

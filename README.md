@@ -38,6 +38,12 @@ export default class IndexEndpoint {
 
 Data validation can be added in the `addEndpoint` method and will then be able to be accessed in the given function. An example can be found in the 'Data Validation' section.
 
+When adding an endpoint, make sure to resolve it in `index.ts`:
+
+```javascript
+container.resolve(IndexEndpoint);
+```
+
 
 ### Router
 The goal of the router is to route a request to a specified endpoint and if needed, validate any data sent within the request.
@@ -94,13 +100,19 @@ adminRouter.addEndpoint(HttpMethods.POST, '/', this.post.bind(this), [
 
 Then use the value, in this case `secret`, in your endpoint function:
 
-```javascript
-private post(secret: string): EndpointResponse<boolean> {
-  this.user.secret = secret;
+```typescript
+@singleton()
+export default class AdminEndpoint {
+    
+  // constructor() {...
+    
+  private post(secret: string): EndpointResponse<boolean> {
+    this.user.secret = secret;
 
-  return {
-    status: 200,
-    data: true
+    return {
+      status: 200,
+      data: true
+    }
   }
 }
 ```
