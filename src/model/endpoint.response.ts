@@ -1,5 +1,5 @@
-interface EndpointResponse<T> {
+export interface EndpointResponse<T> {
     status: number,
-    message?: string,
-    data: T
+    error?: string,
+    data?: T
 }

@@ -4,6 +4,8 @@ import {singleton} from "tsyringe";
 import {ParamTypes} from "../router/http.router";
 import {stringGuard} from "../guards/string.guard";
 import {regexGuard} from "../guards/regex.guard";
+import {EndpointResponse} from "../model/endpoint.response";
+import {User} from "../model/user.model";
 
 @singleton()
 export default class AdminEndpoint {

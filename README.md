@@ -9,6 +9,7 @@ It includes a limited set of features to make the development experience easier:
 - Define endpoints
   - Define routes
   - Input validation per route
+- Error handling
 
 ## Concepts
 

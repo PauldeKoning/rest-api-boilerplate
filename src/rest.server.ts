@@ -1,5 +1,6 @@
 import {singleton} from "tsyringe";
-import express, {Router} from "express";
+import express, {NextFunction, Request, Response, Router} from "express";
+import HttpError from "./util/error/http.error";
 
 @singleton()
 export default class RestServer {
@@ -18,5 +19,13 @@ export default class RestServer {
 
     addRouter(route: string, router: Router): void {
         this.app.use(route, router);
+    }
+
+    addErrorHandler(func: (err: HttpError, req: Request, res: Response, next: NextFunction) => void): void {
+        this.app.use(func);
+    }
+
+    addGlobalMiddleware(func: (req: Request, res: Response, next: NextFunction) => void): void {
+        this.app.use(func);
     }
 }

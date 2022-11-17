@@ -2,6 +2,7 @@ import {singleton} from "tsyringe";
 import RestServer from "../../rest.server";
 import HttpRouter from "../http.router";
 import {NextFunction, Request, Response} from "express";
+import NotFoundError from "../../util/error/not.found.error";
 
 @singleton()
 export default class AdminRouter extends HttpRouter {
@@ -16,7 +17,7 @@ export default class AdminRouter extends HttpRouter {
 
     hasToBeLoggedIn(req: Request, res: Response, next: NextFunction) {
         if (req.query.password !== this.password) {
-            return res.send("Password invalid");
+            throw new NotFoundError();
         }
 
         next();
