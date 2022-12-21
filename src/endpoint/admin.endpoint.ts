@@ -1,7 +1,7 @@
 import {HttpMethods} from "../router/http.methods.enum";
 import AdminRouter from "../router/impl/admin.router";
 import {singleton} from "tsyringe";
-import {ParamTypes} from "../router/http.router";
+import {Parameter, ParamTypes} from "../router/http.router";
 import {stringGuard} from "../guards/string.guard";
 import {regexGuard} from "../guards/regex.guard";
 import {EndpointResponse} from "../model/endpoint.response";
@@ -17,14 +17,7 @@ export default class AdminEndpoint {
 
     constructor(adminRouter: AdminRouter) {
         adminRouter.addEndpoint(HttpMethods.GET, '/', this.get.bind(this));
-        adminRouter.addEndpoint(HttpMethods.POST, '/', this.post.bind(this), [
-            [
-                ParamTypes.BODY,
-                'secret',
-                [stringGuard, 4, 32],
-                [regexGuard, RegExp("^ID-")]
-            ]
-        ]);
+        adminRouter.addEndpoint(HttpMethods.POST, '/', this.post.bind(this), postParams);
     }
 
     private get(): EndpointResponse<User> {
@@ -43,3 +36,14 @@ export default class AdminEndpoint {
         }
     }
 }
+
+const postParams: Parameter[] = [
+    {
+        type: ParamTypes.BODY,
+        name: "secret",
+        guards: [
+            [stringGuard, 4, 24],
+            [regexGuard, RegExp("^ID-")]
+        ]
+    }
+]

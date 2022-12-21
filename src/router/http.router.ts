@@ -14,11 +14,7 @@ export default class HttpRouter {
     addEndpoint(method: HttpMethods,
                 endpoint: string,
                 func: Function,
-                params: [
-                    ParamTypes,
-                    string,
-                    ...[Function, ...any][]
-                ][] = []) {
+                params: Parameter[] = []) {
         this.router[method](endpoint, (req: Request, res: Response) => {
             if (params.length === 0) {
                 return res.send(func());
@@ -26,7 +22,7 @@ export default class HttpRouter {
 
             const output: string[] = [];
 
-            params.forEach(param => output.push(this.handleParams(req, param)));
+            params.forEach(param => output.push(this.handleParameters(req, param)));
 
             res.send(func(...output));
         });
@@ -36,7 +32,7 @@ export default class HttpRouter {
         this.router.use(func);
     }
 
-    private getParamValue(req: Request, type: ParamTypes, name: string): string | undefined {
+    private getParameterValue(req: Request, type: ParamTypes, name: string): string | undefined {
         switch (type) {
             case ParamTypes.QUERY:
                 return req.query[name] as string;
@@ -45,18 +41,13 @@ export default class HttpRouter {
         }
     }
 
-    private handleParams(req: Request, param: [
-        ParamTypes,
-        string,
-        ...[Function, ...any][]
-        ]
-    ): string {
-        const val = this.getParamValue(req, param[0], param[1]);
+    private handleParameters(req: Request, param: Parameter): string {
+        const val = this.getParameterValue(req, param.type, param.name);
 
         if (!val)
-            throw new UserInputError(`Failed to parse required parameter ${param[1]}`);
+            throw new UserInputError(`Failed to parse required parameter ${param.name}`);
 
-        this.handleGuards(val, param.slice(2) as [Function, ...any][])
+        this.handleGuards(val, param.guards)
 
         return val;
     }
@@ -66,6 +57,12 @@ export default class HttpRouter {
             guard[0](val, ...guard.slice(1));
         });
     }
+}
+
+export interface Parameter {
+    type: ParamTypes,
+    name: string,
+    guards: [Function, ...any][]
 }
 
 export enum ParamTypes {
