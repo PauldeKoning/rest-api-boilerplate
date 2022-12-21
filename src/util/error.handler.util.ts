@@ -25,6 +25,8 @@ export default class ErrorHandler {
 
         res.status(err.status);
         res.send(response);
+
+        next();
     }
 
 }
