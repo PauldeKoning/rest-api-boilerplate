@@ -1,7 +1,7 @@
 import IndexRouter from '../router/impl/index.router';
 import { HttpMethods } from '../router/http.methods.enum';
 import { singleton } from 'tsyringe';
-import { EndpointResponse } from '../model/endpoint.response';
+import { EndpointResponse } from '../model/endpoint.response.model';
 
 @singleton()
 export default class IndexEndpoint {

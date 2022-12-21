@@ -1,7 +1,7 @@
 import RestServer from '../rest.server';
 import { injectable } from 'tsyringe';
 import { NextFunction, Request, Response } from 'express';
-import { EndpointResponse } from '../model/endpoint.response';
+import { EndpointResponse } from '../model/endpoint.response.model';
 import HttpError from './error/http.error';
 
 @injectable()

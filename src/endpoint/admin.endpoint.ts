@@ -4,7 +4,7 @@ import { singleton } from 'tsyringe';
 import { Parameter, ParamTypes } from '../router/http.router';
 import { stringGuard } from '../guards/string.guard';
 import { regexGuard } from '../guards/regex.guard';
-import { EndpointResponse } from '../model/endpoint.response';
+import { EndpointResponse } from '../model/endpoint.response.model';
 import { User } from '../model/user.model';
 
 @singleton()
