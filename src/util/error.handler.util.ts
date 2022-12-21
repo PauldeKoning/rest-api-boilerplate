@@ -12,6 +12,10 @@ export default class ErrorHandler {
     }
 
     handleError(err: HttpError, req: Request, res: Response, next: NextFunction): void {
+        if (!err.status) {
+            err.status = 500;
+        }
+
         console.error(err);
 
         const response: EndpointResponse<void> = {

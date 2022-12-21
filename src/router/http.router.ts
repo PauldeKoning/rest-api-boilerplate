@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response, Router} from "express";
 import {HttpMethods} from "./http.methods.enum";
 import RestServer from "../rest.server";
+import UserInputError from "../util/error/user.input.error";
 
 export default class HttpRouter {
 
@@ -53,7 +54,7 @@ export default class HttpRouter {
         const val = this.getParamValue(req, param[0], param[1]);
 
         if (!val)
-            throw Error(`Failed to parse parameter ${param[1]}.`);
+            throw new UserInputError(`Failed to parse required parameter ${param[1]}`);
 
         this.handleGuards(val, param.slice(2) as [Function, ...any][])
 
