@@ -40,9 +40,6 @@ const postParams: Parameter[] = [
   {
     type: ParamTypes.BODY,
     name: 'secret',
-    guards: [
-      [stringGuard, 4, 24],
-      [regexGuard, RegExp('^ID-')]
-    ]
+    guards: [i => stringGuard(i, 4, 24), i => regexGuard(i, RegExp('^ID-'))]
   }
 ];

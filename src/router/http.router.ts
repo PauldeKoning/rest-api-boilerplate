@@ -47,17 +47,15 @@ export default class HttpRouter {
     return val;
   }
 
-  private handleGuards(val: string, guards: [Function, ...any][]) {
-    guards.forEach(guard => {
-      guard[0](val, ...guard.slice(1));
-    });
+  private handleGuards(val: string, guards: ((input: string) => void)[]): void {
+    guards.forEach(guard => guard(val));
   }
 }
 
 export interface Parameter {
   type: ParamTypes;
   name: string;
-  guards: [Function, ...any][];
+  guards: ((input: string) => void)[];
 }
 
 export enum ParamTypes {
