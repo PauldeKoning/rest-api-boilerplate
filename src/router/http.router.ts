@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { HttpMethods } from './http.methods.enum';
 import RestServer from '../rest.server';
 import UserInputError from '../util/error/user.input.error';
+import {EndpointResponse} from "../model/endpoint.response.model";
 
 export default class HttpRouter {
   private readonly router = Router();
@@ -10,17 +11,13 @@ export default class HttpRouter {
     restServer.addRouter(route, this.router);
   }
 
-  addEndpoint(method: HttpMethods, endpoint: string, func: Function, params: Parameter[] = []) {
+  addEndpoint(method: HttpMethods, endpoint: string, controller: (...args: any[]) => EndpointResponse<any>, params: Parameter[] = []) {
     this.router[method](endpoint, (req: Request, res: Response) => {
-      if (params.length === 0) {
-        return res.send(func());
-      }
-
       const output: string[] = [];
 
       params.forEach(param => output.push(this.handleParameters(req, param)));
 
-      res.send(func(...output));
+      res.send(this.handleController(controller, output));
     });
   }
 
@@ -49,6 +46,18 @@ export default class HttpRouter {
 
   private handleGuards(val: string, guards: ((input: string) => void)[]): void {
     guards.forEach(guard => guard(val));
+  }
+
+  private handleController(controller: (...args: any[]) => EndpointResponse<any>, paramOutput: string[] = []) {
+    const output = controller(...paramOutput);
+
+    console.log(output);
+
+    if (output.isDataRaw) {
+      return output.data;
+    }
+
+    return output;
   }
 }
 
