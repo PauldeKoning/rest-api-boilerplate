@@ -1,6 +1,6 @@
 {
-  "name": "rest-api-boilerplate",
-  "version": "1.0.0",
+  "name": "@pauldekoning/rest-api-boilerplate",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -29,5 +29,13 @@
     "express": "^4.18.2",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.7.0"
-  }
+  },
+  "files": [
+    "dist/model/endpoint.response.model.*",
+    "dist/router/http.router.*",
+    "dist/router/http.methods.enum.*",
+    "dist/rest.server.*",
+    "dist/util/**.*",
+    "dist/util/error/**.*"
+  ]
 }
